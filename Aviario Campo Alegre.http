@@ -1,0 +1,6 @@
+@Aviario_Campo_Alegre_HostAddress = http://localhost:5245
+
+GET {{Aviario_Campo_Alegre_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
