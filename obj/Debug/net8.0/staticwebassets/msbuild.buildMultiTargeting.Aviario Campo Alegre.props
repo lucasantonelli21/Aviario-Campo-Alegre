@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Aviario Campo Alegre.props" />
+</Project>
