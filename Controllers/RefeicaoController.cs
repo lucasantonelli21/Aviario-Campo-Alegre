@@ -35,7 +35,7 @@ namespace Aviario_Campo_Alegre.Controllers
             return Ok(refeicao);
         }
 
-        [HttpGet]
+        [HttpGet("Listar")]
         public IActionResult Listar(){
             var lista = _context.Refeicoes.ToList();
             foreach(var item in lista){

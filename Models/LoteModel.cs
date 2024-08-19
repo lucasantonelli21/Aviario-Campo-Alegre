@@ -18,6 +18,6 @@ namespace Aviario_Campo_Alegre.Models
         public decimal PrecoLote { get; set; }	
         public decimal PrecoVendaAnimal { get; set; }	
         public DateOnly? DataVenda { get; set; }
-        public bool Vendido {get; set; }
+        public Boolean Vendido {get; set; }
     }
 }
