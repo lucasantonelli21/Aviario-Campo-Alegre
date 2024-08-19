@@ -4,6 +4,7 @@ using Aviario_Campo_Alegre.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aviario_Campo_Alegre.Migrations
 {
     [DbContext(typeof(OrganizadorContext))]
-    partial class OrganizadorContextModelSnapshot : ModelSnapshot
+    [Migration("20240819104215_corrigindoRefeicao")]
+    partial class corrigindoRefeicao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +68,7 @@ namespace Aviario_Campo_Alegre.Migrations
                     b.Property<DateOnly>("DataEntrada")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly?>("DataVenda")
+                    b.Property<DateOnly>("DataVenda")
                         .HasColumnType("date");
 
                     b.Property<string>("Linhagem")
@@ -128,9 +131,6 @@ namespace Aviario_Campo_Alegre.Migrations
 
                     b.Property<DateOnly>("DataAdministracao")
                         .HasColumnType("date");
-
-                    b.Property<int>("IdRacao")
-                        .HasColumnType("int");
 
                     b.Property<int>("NumeroLote")
                         .HasColumnType("int");
