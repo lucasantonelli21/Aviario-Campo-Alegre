@@ -11,9 +11,6 @@ namespace Aviario_Campo_Alegre.DTOs
         public long QuantidadeAnimais { get; set; }
         public string Linhagem { get; set; }
         public string AviarioOrigem { get; set; }
-        public long QuantidadeVendas { get; set; }
-        public long QuantidadeConsumo { get; set; }
-        public long QuantidadeMortos { get; set; }
         public decimal PrecoLote { get; set; }	
         public DateOnly? DataVenda { get; set; }
     }

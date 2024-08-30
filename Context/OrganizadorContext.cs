@@ -17,5 +17,6 @@ namespace Aviario_Campo_Alegre.Context
         public DbSet<RefeicaoModel> Refeicoes { get; set; }
         public DbSet<RacaoModel> Racoes { get; set; }
         public DbSet<VacinaModel> Vacinas { get; set; }
+        public DbSet<VendaAnimal> Vendas {get; set;}
     }
 }
