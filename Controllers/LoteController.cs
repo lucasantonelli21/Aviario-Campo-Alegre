@@ -58,6 +58,7 @@ namespace Aviario_Campo_Alegre.Controllers
             DataVenda = DateOnly.FromDateTime(DateTime.Now),
             IdLote = lote.Id
             };
+            lote.QuantidadeVendas.Add(novaVenda);
             _context.Vendas.Add(novaVenda);
             _context.Lotes.Update(lote);
             _context.SaveChanges();
@@ -89,7 +90,16 @@ namespace Aviario_Campo_Alegre.Controllers
         public IActionResult Vender(int idLote,int qntdVendas,decimal precoVendas){
             var lote = _context.Lotes.Find(idLote);
             if(lote == null){return NotFound();}
+            var listaVendas = _context.Vendas.Where(x => x.IdLote == lote.Id).ToList();
+            long limiteVenda = 0;
+            foreach(var venda in listaVendas){
+                limiteVenda = limiteVenda + venda.Quantidade;
+            }
+            if(limiteVenda + qntdVendas > lote.QuantidadeAnimais){return BadRequest();}
+            if(limiteVenda + qntdVendas == lote.QuantidadeAnimais){lote.Vendido = true;}
             var novaVenda = new VendaAnimal{Quantidade= qntdVendas,PrecoVenda=precoVendas, DataVenda = DateOnly.FromDateTime(DateTime.Now), IdLote = lote.Id };
+            listaVendas.Add(novaVenda);
+            lote.QuantidadeVendas = listaVendas;
             _context.Lotes.Update(lote);
             _context.Vendas.Add(novaVenda);
             _context.SaveChanges();
