@@ -36,5 +36,20 @@ namespace Aviario_Campo_Alegre.Controllers
             return(Ok(vacina));
         }
 
+        [HttpGet("ListarTodasVacinas")]
+        public IActionResult Listar(){
+            return Ok(_context.Vacinas.ToList());
+        }
+
+        [HttpGet("ListarVacinasPorIdDeLote{numeroLote}")]
+        public IActionResult ListarPorId(int numeroLote){
+            var vacinas = _context.Vacinas.Where(x => x.NumeroLote == numeroLote).ToList();
+            if(vacinas==null){return NotFound();}
+            return Ok(vacinas);
+        }
+
+
+
+
     }
 }
