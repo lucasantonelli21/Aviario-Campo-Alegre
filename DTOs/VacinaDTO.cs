@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Aviario_Campo_Alegre.Models
+namespace Aviario_Campo_Alegre.DTOs
 {
-    public class VacinaModel
+    public class VacinaDTO
     {
-        public int Id { get; set; }
         public int NumeroLote { get; set; }	
         public string Nome { get; set; }
         public DateOnly DataAplicacao { get; set; }
