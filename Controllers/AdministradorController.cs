@@ -18,6 +18,7 @@ namespace Aviario_Campo_Alegre.Controllers
         {_context = context;}
 
         [HttpPost]
+        //TODO: Geração de token JWT e HashCode da senha / criptografia
         public IActionResult Login(LoginDTO loginDTO)
         {
             var login = _context.Administradores.Where(x=> x.Email== loginDTO.Email && x.Password== loginDTO.Password).FirstOrDefault();                       
