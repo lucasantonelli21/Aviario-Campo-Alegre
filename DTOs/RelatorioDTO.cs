@@ -9,8 +9,9 @@ namespace Aviario_Campo_Alegre.DTOs
     {
         public int NumeroLote {get; set;}
         public decimal PrecoLote { get; set; }	
-        public decimal PrecoVendaAnimal { get; set; }
+        public List<VendaAnimal> VendaAnimal { get; set; }
         public List<RefeicaoModel> Refeicoes { get; set; }
+        public List<VacinaModel> Vacinas { get; set; }
         public long QuantidadeConsumo { get; set; }
         public long QuantidadeAnimais { get; set; }
         public long QuantidadeMortos { get; set; }
