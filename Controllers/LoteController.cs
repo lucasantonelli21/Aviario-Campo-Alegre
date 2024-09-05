@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
 using Aviario_Campo_Alegre.Models;
+using Aviario_Campo_Alegre.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Aviario_Campo_Alegre.Controllers
@@ -14,32 +15,23 @@ namespace Aviario_Campo_Alegre.Controllers
     public class LoteController : ControllerBase
     {
         private readonly OrganizadorContext _context;
+        private LoteService loteService;
         public LoteController(OrganizadorContext context)
         {
             this._context = context;
+            this.loteService = new LoteService(context);
         }
 
         [HttpPost]
         public IActionResult Cadastrar(LoteDTO loteDTO){
-            var lote = new LoteModel {
-                DataEntrada = loteDTO.DataEntrada,
-                QuantidadeAnimais = loteDTO.QuantidadeAnimais,
-                Linhagem = loteDTO.Linhagem,
-                AviarioOrigem = loteDTO.AviarioOrigem,
-                QuantidadeConsumo = 0,
-                QuantidadeMortos = 0,
-                PrecoLote = loteDTO.PrecoLote,
-                DataVenda = loteDTO.DataVenda,
-                Vendido = false
-            };
-            _context.Lotes.Add(lote);
-            _context.SaveChanges();
+            var lote = loteService.TransformarDTO(loteDTO);
+            loteService.CadastrarLote(lote);
             return Ok(lote);
         }
 
-        [HttpGet]
+        [HttpGet] //TODO: ARRUMAR VENDAS SERVICE
         public IActionResult Listar() {
-            var listaLote = _context.Lotes.ToList();
+            var listaLote = loteService.ListarLotes();
             foreach(var lote in listaLote){
                 lote.QuantidadeVendas = _context.Vendas.Where(x => x.NumeroLote == lote.Id).ToList();
             }
@@ -48,63 +40,38 @@ namespace Aviario_Campo_Alegre.Controllers
 
         [HttpPut("Vender{idLote},{valorVenda}")]
         public IActionResult Vender(int idLote, decimal valorVenda){
-            var lote = _context.Lotes.Find(idLote);
+            var lote = loteService.GetLote(idLote);
             if(lote == null){return NotFound();}
             if(lote.Vendido){return BadRequest();}
-            lote.Vendido = true;
-            lote.DataVenda = DateOnly.FromDateTime(DateTime.Now);
-            var novaVenda = new VendaAnimal{ Quantidade = lote.QuantidadeAnimais,
-            PrecoVenda = valorVenda,
-            DataVenda = DateOnly.FromDateTime(DateTime.Now),
-            NumeroLote = lote.Id
-            };
-            lote.QuantidadeVendas.Add(novaVenda);
-            _context.Vendas.Add(novaVenda);
-            _context.Lotes.Update(lote);
-            _context.SaveChanges();
+            lote = loteService.VenderLote(lote,valorVenda);
             return Ok(lote);
         }
 
         [HttpPut("AdicionarMortalidade{idLote},{qntdMortos}")]
         public IActionResult AdicionarMortalidade(int idLote,int qntdMortos){
-            var lote = _context.Lotes.Find(idLote);
+            var lote = loteService.GetLote(idLote);
             if(lote == null){return NotFound();}
-            lote.QuantidadeMortos = lote.QuantidadeMortos+qntdMortos;
-            _context.Lotes.Update(lote);
-            _context.SaveChanges();
+            lote = loteService.AdicionarMortalidade(lote,qntdMortos);
             return Ok(lote);
         }
         
         [HttpPut("AdicionarConsumo{idLote},{qntdConsumo}")]
         public IActionResult AdicionarConsumo(int idLote,int qntdConsumo){
-            var lote = _context.Lotes.Find(idLote);
+            var lote = loteService.GetLote(idLote);
             if(lote == null){return NotFound();}
-            lote.QuantidadeConsumo = lote.QuantidadeConsumo+qntdConsumo;
-            _context.Lotes.Update(lote);
-            _context.SaveChanges();
+            lote = loteService.AdicionarConsumo(lote,qntdConsumo);
             return Ok(lote);
         }
 
         
         [HttpPut("AdicionarVenda{idLote},{qntdVendas},{precoVendas}")]
         public IActionResult Vender(int idLote,int qntdVendas,decimal precoVendas){
-            var lote = _context.Lotes.Find(idLote);
+            var lote = loteService.GetLote(idLote);
             if(lote == null){return NotFound();}
-            var listaVendas = _context.Vendas.Where(x => x.NumeroLote == lote.Id).ToList();
-            long limiteVenda = 0;
-            foreach(var venda in listaVendas){
-                limiteVenda = limiteVenda + venda.Quantidade;
-            }
-            if(limiteVenda + qntdVendas > lote.QuantidadeAnimais){return BadRequest();}
-            if(limiteVenda + qntdVendas == lote.QuantidadeAnimais){lote.Vendido = true;}
-            var novaVenda = new VendaAnimal{Quantidade= qntdVendas,PrecoVenda=precoVendas, DataVenda = DateOnly.FromDateTime(DateTime.Now), NumeroLote = lote.Id };
-            listaVendas.Add(novaVenda);
-            lote.QuantidadeVendas = listaVendas;
-            _context.Lotes.Update(lote);
-            _context.Vendas.Add(novaVenda);
-            _context.SaveChanges();
+            lote = loteService.AdicionarVenda(lote,qntdVendas,precoVendas);
+            if(lote == null){return BadRequest();}
             return Ok(lote);
         }
-    
+        
     }
 }
