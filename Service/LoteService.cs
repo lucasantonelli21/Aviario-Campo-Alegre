@@ -14,9 +14,11 @@ namespace Aviario_Campo_Alegre.Service
     public class LoteService : ILoteService
     {
         private readonly OrganizadorContext _context;
+        private VendaService vendaService;
         public LoteService(OrganizadorContext context)
         {   
             this._context = context;
+            this.vendaService = new VendaService(context);
         }
 
         public LoteModel TransformarDTO(LoteDTO loteDTO)
@@ -41,7 +43,9 @@ namespace Aviario_Campo_Alegre.Service
             
         }
         public List<LoteModel> ListarLotes(){
-            return _context.Lotes.ToList();
+            var lotes = _context.Lotes.ToList();
+            lotes = vendaService.GetVendas(lotes);
+            return lotes;
         }
         public LoteModel GetLote(int idLote){
             return _context.Lotes.Find(idLote);
@@ -55,7 +59,7 @@ namespace Aviario_Campo_Alegre.Service
             NumeroLote = lote.Id
             };
             lote.QuantidadeVendas.Add(novaVenda);
-            _context.Vendas.Add(novaVenda);
+            vendaService.Cadastrar(novaVenda);
             _context.Lotes.Update(lote);
             _context.SaveChanges();
             return lote;
@@ -78,7 +82,7 @@ namespace Aviario_Campo_Alegre.Service
         }
 
         public LoteModel AdicionarVenda(LoteModel lote, int qntdVendas, decimal precoVendas){
-            var listaVendas = _context.Vendas.Where(x => x.NumeroLote == lote.Id).ToList();
+            var listaVendas = vendaService.GetVendas(lote.Id);
             long limiteVenda = 0;
             foreach(var venda in listaVendas){
                 limiteVenda = limiteVenda + venda.Quantidade;
@@ -89,7 +93,7 @@ namespace Aviario_Campo_Alegre.Service
             listaVendas.Add(novaVenda);
             lote.QuantidadeVendas = listaVendas;
             _context.Lotes.Update(lote);
-            _context.Vendas.Add(novaVenda);
+            vendaService.Cadastrar(novaVenda);
             _context.SaveChanges();
             return lote;
         }

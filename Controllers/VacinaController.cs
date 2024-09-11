@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
 using Aviario_Campo_Alegre.Models;
+using Aviario_Campo_Alegre.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Aviario_Campo_Alegre.Controllers
@@ -14,36 +15,28 @@ namespace Aviario_Campo_Alegre.Controllers
     public class VacinaController : ControllerBase
     {
         private readonly OrganizadorContext _context;
+        private VacinaService vacinaService;
         public VacinaController(OrganizadorContext context)
         {
             this._context = context;
+            this.vacinaService = new VacinaService(context);
         }
 
         [HttpPost]
         public IActionResult Cadastrar(VacinaDTO vacinaDTO){
-            var vacina = new VacinaModel{
-                NumeroLote = vacinaDTO.NumeroLote,
-                Nome = vacinaDTO.Nome,
-                DataAplicacao = vacinaDTO.DataAplicacao,
-                DataProxAplicacao = vacinaDTO.DataProxAplicacao,
-                NumeroNota = vacinaDTO.NumeroNota,
-                Validade = vacinaDTO.Validade,
-                Laboratorio = vacinaDTO.Laboratorio,
-                Preco = vacinaDTO.Preco
-            };
-            _context.Vacinas.Add(vacina);
-            _context.SaveChanges();
-            return(Ok(vacina));
+            var vacina = vacinaService.TransformaDTO(vacinaDTO);
+            vacinaService.CadastrarVacina(vacina);
+            return Ok(vacina);
         }
 
         [HttpGet("ListarTodasVacinas")]
         public IActionResult Listar(){
-            return Ok(_context.Vacinas.ToList());
+            return Ok(vacinaService.ListarVacinas());
         }
 
         [HttpGet("ListarVacinasPorIdDeLote{numeroLote}")]
         public IActionResult ListarPorId(int numeroLote){
-            var vacinas = _context.Vacinas.Where(x => x.NumeroLote == numeroLote).ToList();
+            var vacinas = vacinaService.ListarPorLote(numeroLote);
             if(vacinas==null){return NotFound();}
             return Ok(vacinas);
         }

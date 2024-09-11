@@ -29,12 +29,9 @@ namespace Aviario_Campo_Alegre.Controllers
             return Ok(lote);
         }
 
-        [HttpGet] //TODO: ARRUMAR VENDAS SERVICE
+        [HttpGet] 
         public IActionResult Listar() {
             var listaLote = loteService.ListarLotes();
-            foreach(var lote in listaLote){
-                lote.QuantidadeVendas = _context.Vendas.Where(x => x.NumeroLote == lote.Id).ToList();
-            }
             return Ok(listaLote);
         }
 
