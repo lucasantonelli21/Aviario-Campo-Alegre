@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
 using Aviario_Campo_Alegre.Models;
+using Aviario_Campo_Alegre.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Aviario_Campo_Alegre.Controllers
@@ -14,39 +15,34 @@ namespace Aviario_Campo_Alegre.Controllers
     public class RefeicaoController : ControllerBase
     {
         private readonly OrganizadorContext _context;
+        private RefeicaoService refeicaoService;
         public RefeicaoController(OrganizadorContext context)
         {
             this._context = context;
+            this.refeicaoService = new RefeicaoService(context);
         }
 
         [HttpPost("IdRacao{int}")]
         public IActionResult Cadastrar(int IdRacao,RefeicaoDTO refeicaoDTO){
-            var refeicao = new RefeicaoModel {
-                NumeroLote = refeicaoDTO.NumeroLote,
-                Racao = _context.Racoes.Find(IdRacao),
-                QuantidadeRacao = refeicaoDTO.QuantidadeRacao,
-                DataAdministracao = refeicaoDTO.DataAdministracao,
-                PrecoAplicao = refeicaoDTO.PrecoAplicao
-            };
+            var refeicao = refeicaoService.TransformarDTO(refeicaoDTO,IdRacao);
             if(refeicao.Racao == null)
                 return NotFound();
-            _context.Refeicoes.Add(refeicao);
-            _context.SaveChanges();
+            refeicaoService.Cadastrar(refeicao);
             return Ok(refeicao);
         }
 
         [HttpGet("Listar")]
         public IActionResult Listar(){
-            var lista = _context.Refeicoes.ToList();
-            foreach(var item in lista){
-                item.Racao = _context.Racoes.Find(item.IdRacao);
-            }
+            var lista = refeicaoService.ListarRefeicoes();
+            lista = refeicaoService.AcharRacoes(lista);
+            
             return Ok(lista);
         }
         [HttpGet("BuscarRefeicao{idRefeicao}")]
         public IActionResult Retornar(int idRefeicao ){
-            var refeicao = _context.Refeicoes.Find(idRefeicao);
-            refeicao.Racao = _context.Racoes.Find(refeicao.IdRacao);
+            var refeicao = refeicaoService.GetRefeicao(idRefeicao);
+            if(refeicao == null)
+                return NotFound();
             return Ok(refeicao);
         }
 

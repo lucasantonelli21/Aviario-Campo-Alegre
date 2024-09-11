@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aviario_Campo_Alegre.DTOs;
 using Aviario_Campo_Alegre.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Aviario_Campo_Alegre.Interface
 {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
 using Aviario_Campo_Alegre.Models;
+using Aviario_Campo_Alegre.Service;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,19 +16,19 @@ namespace Aviario_Campo_Alegre.Controllers
     public class RacaoController  : Controller	
     {
         private readonly OrganizadorContext _context;
+        private RacaoService racaoService;
 
         public RacaoController(OrganizadorContext context)
-        {_context = context;}
+        {
+            _context = context;
+            racaoService = new RacaoService(context);
+        }
         
         
         [HttpPost]
         public IActionResult Cadastrar(RacaoDTO racaoDTO)
         {
-            var racao = new RacaoModel{
-                TipoDaRacao = racaoDTO.TipoDaRacao.ToString(),
-                Preco = racaoDTO.Preco,
-                QuantidadeDiasAplicacao = racaoDTO.QuantidadeDiasAplicacao
-            };
+            var racao = racaoService.TransformarDTO(racaoDTO);
             _context.Racoes.Add(racao);
             _context.SaveChanges();
 
@@ -37,28 +38,24 @@ namespace Aviario_Campo_Alegre.Controllers
 
         [HttpGet]
         public IActionResult Listar(){
-            return Ok(_context.Racoes.ToList());
+            return Ok(racaoService.ListarRacoes());
         }
 
         [HttpPut("AtualizarPreco{idRacao},{novoPreco}")]
         public IActionResult AtualizarPreco(int idRacao,decimal novoPreco){
-            var racao = _context.Racoes.Find(idRacao);
+            var racao = racaoService.GetRacao(idRacao);
             if(racao == null)
                 return NotFound();
-            racao.Preco = novoPreco;
-            _context.Racoes.Update(racao);
-            _context.SaveChanges();
+            racao = racaoService.AtualizarPreco(racao,novoPreco);
             return Ok(racao);
         } 
 
         [HttpPut("AtualizarDiasDeAplicacao{idRacao},{novaQuantidadeDias}")]
         public IActionResult AtualizarDiasDeAplicacao(int idRacao,int novaQuantidadeDias){
-            var racao = _context.Racoes.Find(idRacao);
+            var racao = racaoService.GetRacao(idRacao);
             if(racao == null)
                 return NotFound();
-            racao.QuantidadeDiasAplicacao = novaQuantidadeDias;
-            _context.Racoes.Update(racao);
-            _context.SaveChanges();
+            racao = racaoService.AtualizarDataAplicacao(racao,novaQuantidadeDias);
             return Ok(racao);
         }
 

@@ -6,6 +6,8 @@ using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
 using Aviario_Campo_Alegre.Interface;
 using Aviario_Campo_Alegre.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Aviario_Campo_Alegre.Service
 {
@@ -32,10 +34,11 @@ namespace Aviario_Campo_Alegre.Service
              };   
              return lote;
         }
-        public void CadastrarLote(LoteModel loteDTO)
+        public void CadastrarLote(LoteModel lote)
         {
-            _context.Lotes.Add(loteDTO);
+            _context.Lotes.Add(lote);
             _context.SaveChanges();
+            
         }
         public List<LoteModel> ListarLotes(){
             return _context.Lotes.ToList();
