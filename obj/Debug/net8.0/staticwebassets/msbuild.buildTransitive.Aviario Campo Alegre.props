@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Aviario Campo Alegre.props" />
-</Project>
