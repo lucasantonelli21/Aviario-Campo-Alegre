@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aviario_Campo_Alegre.Enums;
 namespace Aviario_Campo_Alegre.Models
-{
+{   
     public class RacaoModel
     {
         public int Id { get; set;}

@@ -135,3 +135,4 @@ C:\Users\lucas\OneDrive\Documentos\Aviario Campo Alegre\obj\Debug\net8.0\refint\
 C:\Users\lucas\OneDrive\Documentos\Aviario Campo Alegre\obj\Debug\net8.0\Aviario Campo Alegre.pdb
 C:\Users\lucas\OneDrive\Documentos\Aviario Campo Alegre\obj\Debug\net8.0\Aviario Campo Alegre.genruntimeconfig.cache
 C:\Users\lucas\OneDrive\Documentos\Aviario Campo Alegre\obj\Debug\net8.0\ref\Aviario Campo Alegre.dll
+C:\Users\lucas\OneDrive\Documentos\Aviario Campo Alegre\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

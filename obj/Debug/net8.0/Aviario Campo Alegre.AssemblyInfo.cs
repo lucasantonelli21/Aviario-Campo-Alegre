@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Aviario Campo Alegre")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a06565250586dcbc932fec4af5694fa8ed8a9a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+54dd7feb1c6020b043dd2699686f15b709773a79")]
 [assembly: System.Reflection.AssemblyProductAttribute("Aviario Campo Alegre")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Aviario Campo Alegre")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -6,6 +6,7 @@ using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
 using Aviario_Campo_Alegre.Models;
 using Aviario_Campo_Alegre.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace Aviario_Campo_Alegre.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Roles = "Adm")]
     public class RacaoController  : Controller	
     {
         private readonly OrganizadorContext _context;
