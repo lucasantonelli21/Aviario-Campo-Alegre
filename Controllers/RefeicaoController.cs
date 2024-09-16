@@ -45,6 +45,13 @@ namespace Aviario_Campo_Alegre.Controllers
                 return NotFound();
             return Ok(refeicao);
         }
+        [HttpGet("ListarRefeicoesPorLote{idLote}")]
+        public IActionResult ListarRefeicoesPorLote(int idLote){
+            var refeicao = refeicaoService.ListarPorLote(idLote);
+            if(refeicao == null)           
+                return NotFound();
+            return Ok(refeicao);
+        }
 
     }
 }

@@ -13,6 +13,7 @@ namespace Aviario_Campo_Alegre.Interface
         public void Cadastrar(RefeicaoModel refeicaoModel);
         public RefeicaoModel TransformarDTO(RefeicaoDTO refeicaoDTO, int idRacao);
         public List<RefeicaoModel> ListarRefeicoes();
+        public List<RefeicaoModel> ListarPorLote(int idLote);
         public List<RefeicaoModel> AcharRacoes(List<RefeicaoModel> lista);
         public RefeicaoModel GetRefeicao(int id);
     }

@@ -12,7 +12,7 @@ namespace Aviario_Campo_Alegre.DTOs
         public double QuantidadeRacao { get; set; }
         public DateOnly DataAdministracao { get; set; }
         
-        public decimal PrecoAplicao { get; set; }
+        
     
     }
 }
