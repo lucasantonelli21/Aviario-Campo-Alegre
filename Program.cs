@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Aviario_Campo_Alegre.Interface;
+using Aviario_Campo_Alegre.Service;
 
 
 
@@ -32,7 +34,14 @@ builder.Services.AddAuthentication(option =>{
             });
 
 builder.Services.AddAuthorization();
-
+builder.Services.AddScoped<IAdmService,AdmService>();
+builder.Services.AddScoped<ILoteService,LoteService>();
+builder.Services.AddScoped<IRacaoService,RacaoService>();
+builder.Services.AddScoped<IRefeicaoService,RefeicaoService>(); 
+builder.Services.AddScoped<IRelatorioService,RelatorioService>();
+builder.Services.AddScoped<ITokenService,TokenService>();
+builder.Services.AddScoped<IVacinaService,VacinaService>();
+builder.Services.AddScoped<IVendasService,VendaService>();
 builder.Services.AddSwaggerGen(options => {
     options.MapType<DateOnly>(() => new OpenApiSchema { 
         Type = "string",

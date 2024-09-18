@@ -14,7 +14,7 @@ namespace Aviario_Campo_Alegre.Service
     public class LoteService : ILoteService
     {
         private readonly OrganizadorContext _context;
-        private VendaService vendaService;
+        private IVendasService vendaService;
         public LoteService(OrganizadorContext context)
         {   
             this._context = context;

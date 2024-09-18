@@ -12,8 +12,8 @@ namespace Aviario_Campo_Alegre.Service
     public class AdmService : IAdmService
     {
         private readonly OrganizadorContext _context;
-        private TokenService tokenService;
-        public AdmService(OrganizadorContext context, TokenService tokenService)
+        private ITokenService tokenService;
+        public AdmService(OrganizadorContext context, ITokenService tokenService)
         {   
             this._context = context;
             this.tokenService = tokenService;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
+using Aviario_Campo_Alegre.Interface;
 using Aviario_Campo_Alegre.Models;
 using Aviario_Campo_Alegre.Service;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ namespace Aviario_Campo_Alegre.Controllers
     public class LoteController : ControllerBase
     {
         private readonly OrganizadorContext _context;
-        private LoteService loteService;
+        private ILoteService loteService;
         public LoteController(OrganizadorContext context)
         {
             this._context = context;

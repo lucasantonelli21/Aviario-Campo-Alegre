@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aviario_Campo_Alegre.Context;
 using Aviario_Campo_Alegre.DTOs;
+using Aviario_Campo_Alegre.Interface;
 using Aviario_Campo_Alegre.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,7 @@ namespace Aviario_Campo_Alegre.Controllers
     public class AdministradorController : ControllerBase
     {
         private readonly OrganizadorContext _context;
-        private AdmService administradorService;
+        private IAdmService administradorService;
         public AdministradorController(OrganizadorContext context, IConfiguration configuration)
         {
             _context = context;
